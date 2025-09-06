@@ -56,7 +56,7 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
-    private boolean enabled = false;
+    private boolean enabled = true;
     private boolean emailVerified = false;
     private boolean phoneVerified = false;
 

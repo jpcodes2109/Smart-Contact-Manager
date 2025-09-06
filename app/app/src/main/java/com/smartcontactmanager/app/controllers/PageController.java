@@ -18,12 +18,16 @@ import com.smartcontactmanager.app.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-
 @Controller
 public class PageController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/home";
+    }
 
     @RequestMapping("/home")
     public String home(Model model) {
@@ -79,20 +83,20 @@ public class PageController {
     // processing register
 
     @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult, HttpSession session) {
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult,
+            HttpSession session) {
         System.out.println("Processing registration");
         // fetch form data
         // UserForm
         System.out.println(userForm);
 
         // validate form data
-        if(rBindingResult.hasErrors()){
-            System.out.println("Error : "+rBindingResult.toString());
-            // if error hai to wapas register page pe le jao
-            // with error message
-            session.setAttribute("message", Message.builder().content("Please check the form details").type(MessageType.RED).build());
+        if (rBindingResult.hasErrors()) {
             return "register";
         }
+
+        // TODO::Validate userForm[Next Video]
+
         // save to database
 
         // userservice
@@ -125,7 +129,7 @@ public class PageController {
 
         // add the message:
 
-        Message message = Message.builder().content("Registration Successful").type(MessageType.BLUE).build();
+        Message message = Message.builder().content("Registration Successful").type(MessageType.green).build();
 
         session.setAttribute("message", message);
 
